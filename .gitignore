@@ -1,0 +1,6 @@
+data/
+preprocessed_covid/
+.claude/
+test/
+tests/
+__pycache__/

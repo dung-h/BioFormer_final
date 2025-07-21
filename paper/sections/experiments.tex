@@ -1,0 +1,175 @@
+This section describes our experimental setup for evaluating \bioformer{}'s batch integration performance, including datasets, baselines, evaluation metrics, and implementation details.
+
+\subsection{Datasets}
+
+We evaluate \bioformer{} on multiple single-cell datasets with varying batch complexity to demonstrate the generalizability of our approach.
+
+\subsubsection{Primary Dataset: PBMC-10k}
+
+Our primary evaluation uses the PBMC-10k dataset, which contains peripheral blood mononuclear cells from healthy donors across multiple experimental batches. This dataset provides:
+
+\begin{itemize}
+\item \textbf{Multi-batch structure}: 15 distinct study batches with varying technical conditions
+\item \textbf{Cell type diversity}: 8 major immune cell types (T cells, B cells, NK cells, monocytes, dendritic cells, etc.)
+\item \textbf{Batch effects}: Strong technical variations between studies that challenge integration methods
+\item \textbf{Ground truth labels}: Well-annotated cell types for quantitative evaluation
+\end{itemize}
+
+The dataset was preprocessed using our established pipeline: normalization to 10,000 total counts per cell, log1p transformation, and selection of 1000 highly variable genes matching our fixed gene vocabulary.
+
+\subsubsection{External Validation Datasets}
+
+To validate generalizability, we evaluate on three external datasets with different characteristics:
+
+\textbf{MS Dataset} \citep{ms2023}: Brain tissue samples from multiple sclerosis patients across different laboratories, representing medium-difficulty batch integration with 18 cell types.
+
+\textbf{Myeloid Dataset} \citep{myeloid2023}: Cross-tissue myeloid cells representing challenging batch integration due to subtle macrophage subtypes across different anatomical locations.
+
+\textbf{hPancreas Dataset} \citep{hpancreas2023}: Well-characterized pancreatic islet cells representing easier batch integration with distinct cell type signatures.
+
+\subsection{Baseline Methods}
+
+We compare \bioformer{} against established batch integration methods across different complexity levels:
+
+\subsubsection{Traditional Methods}
+\begin{itemize}
+\item \textbf{PCA + Random Forest}: Principal component analysis followed by random forest classification, representing classical dimensionality reduction approaches
+\item \textbf{Harmony} \citep{korsunsky2019fast}: State-of-the-art linear batch correction method
+\item \textbf{scVI} \citep{lopez2018deep}: Variational autoencoder-based integration method
+\end{itemize}
+
+\subsubsection{Transformer-Based Methods}
+\begin{itemize}
+\item \textbf{scGPT} \citep{cui2024scgpt}: Current state-of-the-art transformer model for single-cell analysis (where computational resources permit)
+\item \textbf{scBERT} \citep{yang2022scbert}: BERT-style masked language model for single-cell data
+\end{itemize}
+
+Note: Due to gene vocabulary constraints, direct comparison with scGPT and scBERT is limited to datasets where gene mapping is feasible.
+
+\subsection{Evaluation Metrics}
+
+We employ multiple complementary metrics to comprehensively evaluate batch integration performance:
+
+\subsubsection{Clustering Quality Metrics}
+
+\textbf{Normalized Mutual Information (NMI)}:
+\begin{equation}
+\text{NMI} = \frac{2 \times I(\text{predicted}, \text{true})}{H(\text{predicted}) + H(\text{true})}
+\end{equation}
+
+NMI measures how well predicted clusters correspond to true cell types, with values ranging from 0 (random) to 1 (perfect agreement).
+
+\textbf{Adjusted Rand Index (ARI)}:
+\begin{equation}
+\text{ARI} = \frac{\text{RI} - \text{Expected RI}}{\text{Max RI} - \text{Expected RI}}
+\end{equation}
+
+ARI measures clustering accuracy while correcting for chance, providing robust evaluation of cell type identification.
+
+\subsubsection{Batch Integration Metrics}
+
+\textbf{Graph Connectivity}: Measures the preservation of local neighborhood structure across batches using k-nearest neighbor graphs.
+
+\textbf{Batch Mixing Score}: Quantifies how well cells from different batches are integrated in the embedding space:
+\begin{equation}
+\text{Batch Mixing} = 1 - \frac{\text{Intra-batch connections}}{\text{Total connections}}
+\end{equation}
+
+\textbf{Silhouette Score}: Evaluates cluster cohesion and separation in the integrated embedding space.
+
+\subsubsection{Biological Preservation Metrics}
+
+\textbf{Cell Type Purity}: Measures whether batch integration preserves biological cell type distinctions.
+
+\textbf{Marker Gene Conservation}: Evaluates whether known cell type marker genes maintain their expression patterns after integration.
+
+\subsection{Implementation Details}
+
+\subsubsection{Model Configuration}
+
+\bioformer{} uses the following configuration optimized for batch integration:
+
+\begin{itemize}
+\item \textbf{Architecture}: 8 transformer layers, 4 attention heads, 256 hidden dimensions
+\item \textbf{Vocabulary}: 1000 highly variable genes with fixed ordering
+\item \textbf{MoE Configuration}: 4 experts per layer with token-wise routing
+\item \textbf{Training}: Mixed masked language modeling and continuous prediction objectives
+\item \textbf{Embedding Extraction}: CLS token approach for downstream tasks
+\end{itemize}
+
+\subsubsection{Training Setup}
+
+\textbf{Pretraining}: \bioformer{} is pretrained on a large corpus of single-cell data using:
+\begin{itemize}
+\item Batch size: 32
+\item Learning rate: $2 \times 10^{-4}$ with cosine annealing
+\item Masking probability: 15\% for MLM objective
+\item Training epochs: 100 with early stopping
+\item Optimization: AdamW with weight decay $10^{-4}$
+\end{itemize}
+
+\textbf{Downstream Adaptation}: For batch integration tasks:
+\begin{itemize}
+\item Extract 256-dimensional embeddings using the CLS token
+\item Train lightweight classifiers (2-layer MLP) on extracted embeddings
+\item Use cross-validation for hyperparameter selection
+\item Apply standard batch correction techniques in embedding space when needed
+\end{itemize}
+
+\subsubsection{Computational Environment}
+
+All experiments are conducted on:
+\begin{itemize}
+\item \textbf{Hardware}: NVIDIA GPU with 24GB memory
+\item \textbf{Software}: PyTorch 1.12, scanpy 1.9, scikit-learn 1.1
+\item \textbf{Reproducibility}: Fixed random seeds (42) for all experiments
+\item \textbf{Runtime}: Average batch integration time $<$ 10 minutes for 10k cells
+\end{itemize}
+
+\subsection{Experimental Protocol}
+
+\subsubsection{Batch Integration Pipeline}
+
+Our experimental protocol follows these steps:
+
+\begin{enumerate}
+\item \textbf{Data Preprocessing}: Apply consistent preprocessing pipeline across all datasets
+\item \textbf{Embedding Extraction}: Use pretrained \bioformer{} to extract cell embeddings
+\item \textbf{Batch Integration}: Apply integration method in embedding space
+\item \textbf{Clustering}: Perform Leiden clustering on integrated embeddings
+\item \textbf{Evaluation}: Calculate all metrics on clustered results
+\item \textbf{Visualization}: Generate UMAP plots for qualitative assessment
+\end{enumerate}
+
+\subsubsection{Cross-Validation Strategy}
+
+To ensure robust evaluation:
+\begin{itemize}
+\item 5-fold cross-validation for hyperparameter selection
+\item Stratified sampling to maintain cell type proportions
+\item Multiple random seeds (5 runs) for statistical significance
+\item Separate validation on external datasets
+\end{itemize}
+
+\subsubsection{Ablation Studies}
+
+We conduct comprehensive ablation studies to understand component contributions:
+
+\begin{itemize}
+\item \textbf{MoE vs Standard FFN}: Compare performance with and without mixture of experts
+\item \textbf{Fixed vs Arbitrary Ordering}: Evaluate impact of gene ordering strategy
+\item \textbf{Embedding vs Fine-tuning}: Compare embedding extraction with end-to-end fine-tuning
+\item \textbf{Number of Experts}: Test different numbers of experts (2, 4, 8, 16)
+\end{itemize}
+
+\subsubsection{Statistical Analysis}
+
+Statistical significance is assessed using:
+\begin{itemize}
+\item Paired t-tests for metric comparisons
+\item Wilcoxon signed-rank tests for non-parametric comparisons
+\item Bonferroni correction for multiple testing
+\item Effect size calculations (Cohen's d) for practical significance
+\end{itemize}
+
+This comprehensive experimental setup enables rigorous evaluation of \bioformer{}'s batch integration capabilities while providing insights into the contributions of individual architectural components.

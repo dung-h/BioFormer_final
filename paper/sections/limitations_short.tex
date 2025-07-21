@@ -1,0 +1,54 @@
+Our work has several important limitations that must be acknowledged for proper interpretation of the results and to guide future research directions.
+
+
+\subsection{Architectural Limitations}
+
+\subsubsection{Fixed Vocabulary Constraints}
+The fixed 1000-gene vocabulary approach has inherent limitations:
+\begin{itemize}
+\item Requires datasets to overlap substantially with the predefined gene set
+\item Cannot adapt to domain-specific gene expression patterns
+\item May miss important biological signals from genes not in the vocabulary
+\item Limits applicability to cross-species or specialized tissue analyses
+\end{itemize}
+
+\subsubsection{Model Scale and Complexity}
+Our architectural choices involve trade-offs:
+\begin{itemize}
+\item Fixed vocabulary may be too restrictive for diverse applications
+\item MoE complexity increases compared to standard transformers
+\item Model scale and architecture choices require further optimization
+\end{itemize}
+
+\subsection{Methodological Limitations}
+
+\subsubsection{Statistical Analysis}
+We did not conduct rigorous statistical validation:
+\begin{itemize}
+\item No significance testing of performance differences
+\item No confidence intervals or uncertainty quantification
+\item Single evaluation run without multiple random seeds
+\item No correction for multiple testing in metric comparison
+\end{itemize}
+
+\subsubsection{Interpretability}
+Our understanding of model behavior is limited:
+\begin{itemize}
+\item No detailed analysis of expert specialization patterns
+\item Limited insight into what drives batch integration performance
+\item Unclear biological interpretation of architectural choices
+\end{itemize}
+
+\subsection{Generalization Limitations}
+
+\subsubsection{Task Specificity}
+BioFormer was evaluated only on batch integration:
+\begin{itemize}
+\item Performance on other single-cell tasks unknown
+\item Generalization to different analysis objectives unclear
+\item Applicability to multi-modal data not assessed
+\end{itemize}
+
+
+
+Despite these limitations, our work provides initial evidence that alternative architectural approaches merit investigation. The fixed gene ordering concept and MoE application represent potentially valuable directions for future development, even as they require more extensive validation to establish their practical utility in diverse single-cell analysis contexts.

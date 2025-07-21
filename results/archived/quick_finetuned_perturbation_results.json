@@ -1,0 +1,45 @@
+{
+  "approach": "Quick Fine-tuned BioFormerPerturb",
+  "dataset": "Adamson (subset)",
+  "training_setup": "80% train, 20% test",
+  "model_parameters": 836097,
+  "training_time_seconds": 6.5790135860443115,
+  "total_time_seconds": 7.092651128768921,
+  "training_history": {
+    "train_losses": [
+      2.1230201522509256,
+      0.09354041191557097,
+      0.033587272530273785,
+      0.017220630975706235,
+      0.012092870896652577
+    ],
+    "val_losses": [
+      0.08782463148236275,
+      0.01688242657110095,
+      0.005948506703134626,
+      0.004742647346574813,
+      0.004909256531391293
+    ],
+    "best_val_loss": 0.004742647346574813
+  },
+  "evaluation_results": {
+    "mean_correlation": 0.9950746021850463,
+    "overall_correlation": 0.9939061487715358,
+    "mean_mse": 0.003363226307556033,
+    "mean_mae": 0.04754425585269928,
+    "num_correlations": 50,
+    "num_test_samples": 1000,
+    "num_genes_evaluated": 200
+  },
+  "data_info": {
+    "train_samples": 4000,
+    "test_samples": 1000,
+    "num_genes": 200,
+    "num_perturbations": 82
+  },
+  "comparison_with_zero_shot": {
+    "zero_shot_correlation": 0.007,
+    "finetuned_correlation": 0.9950746021850463,
+    "improvement_factor": 142.15351459786376
+  }
+}

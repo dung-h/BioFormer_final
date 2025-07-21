@@ -1,0 +1,188 @@
+This section describes the \bioformer{} architecture and methodology, emphasizing our novel approaches to gene ordering, mixture of experts integration, and embedding extraction strategies.
+
+\subsection{Datasets}
+
+\subsubsection{Training Data}
+
+\bioformer{} models were trained on 15 diverse single-cell RNA sequencing datasets sourced from CZ CELLxGENE Discover \cite{czicellxgene_dataset}, encompassing approximately 4.5 million cells across 199 unique cell types. The training corpus spans major biological systems including immune, neural, epithelial, and stromal tissues, providing comprehensive representation of cellular diversity. A unified vocabulary of 1,000 highly variable genes was constructed from this collection to ensure consistent gene representation across all experiments.
+
+\subsubsection{Evaluation Data}
+
+For fair model comparison, we evaluated both FFN and MoE variants on two independent datasets:
+
+\begin{itemize}
+\item \textbf{PBMC10k}: Standard benchmark dataset \cite{pbmc10k_dataset} with 11,990 cells, 9 cell types, 2 batches, and complete gene vocabulary coverage (1000/1000 genes)
+\item \textbf{COVID-19}: Challenging dataset \cite{covid19_dataset} with 20,000 cells, 39 cell types, 2 batches, and partial gene vocabulary coverage (454/1000 genes)
+\end{itemize}
+
+\subsection{Overview}
+
+\bioformer{} is a transformer-based architecture specifically designed for single-cell batch integration. Our approach challenges conventional assumptions about gene ordering in transformer models by using fixed gene vocabularies without positional embeddings, while incorporating Mixture of Experts (\moe{}) layers for enhanced specialization across different cellular contexts.
+
+\subsection{Fixed Gene Vocabulary and Ordering}
+
+\subsubsection{Gene Vocabulary Construction}
+
+We construct a fixed gene vocabulary containing exactly 1000 highly variable genes (HVGs) selected through our preprocessing pipeline. The vocabulary is ordered by gene indices, creating a consistent mapping from gene symbols to positions:
+
+\begin{equation}
+V_{gene} = \{g_1, g_2, \ldots, g_{1000}\}
+\end{equation}
+
+where each $g_i$ represents a gene at position $i$ in the vocabulary.
+
+\subsubsection{Gene Embedding Strategy}
+
+Unlike scGPT and scBERT which use arbitrary gene ordering with positional embeddings, \bioformer{} employs fixed positional gene embeddings:
+
+\begin{equation}
+\mathbf{E}_{gene} = \text{Embedding}(\text{arange}(L))
+\end{equation}
+
+where $L = 1000$ is the vocabulary size and $\text{arange}(L)$ creates a tensor $[0, 1, 2, \ldots, 999]$ representing fixed gene positions.
+
+This approach eliminates the need for complex positional encoding schemes while maintaining consistent gene-to-position mappings across all inputs.
+
+\subsection{Expression Value Processing}
+
+Following established practices in single-cell transformers, we use quantile binning to discretize expression values:
+
+\begin{equation}
+\text{binned\_expr}_{i,j} = \text{quantile\_bin}(\text{expr}_{i,j}, n\_bins=51)
+\end{equation}
+
+where $\text{expr}_{i,j}$ is the normalized expression value for gene $j$ in cell $i$, and we use 51 bins (bin 0 for zero expression, bins 1-50 for quantile-based binning).
+
+\subsection{BioFormer Architecture}
+
+\subsubsection{Embedding Layer}
+
+The input embedding combines three components:
+
+\begin{align}
+\mathbf{e}_{gene} &= \text{GeneEmbedding}(\text{arange}(L)) \\
+\mathbf{e}_{value} &= \text{ValueEmbedding}(\text{binned\_expr}) \\
+\mathbf{e}_{cell\_type} &= \text{CellTypeEmbedding}(\text{cell\_type}) \\
+\mathbf{e}_{input} &= \mathbf{e}_{gene} + \mathbf{e}_{value} + \mathbf{e}_{cell\_type}
+\end{align}
+
+where all embeddings have dimension $d_{model} = 256$.
+
+\subsubsection{Transformer Encoder with MoE}
+
+Our core innovation is the integration of token-wise Mixture of Experts in the feed-forward layers:
+
+\begin{algorithm}
+\caption{BioFormer Forward Pass}
+\begin{algorithmic}
+\STATE Input: $\mathbf{X} \in \mathbb{R}^{B \times L \times d}$
+\STATE $\mathbf{H}^{(0)} = \text{LayerNorm}(\mathbf{X})$
+\FOR{$\ell = 1$ to $N_{layers}$}
+    \STATE $\mathbf{A}^{(\ell)} = \text{MultiHeadAttention}(\mathbf{H}^{(\ell-1)})$
+    \STATE $\mathbf{H}^{(\ell)} = \text{LayerNorm}(\mathbf{H}^{(\ell-1)} + \mathbf{A}^{(\ell)})$
+    \STATE $\mathbf{M}^{(\ell)}, \mathbf{W}^{(\ell)} = \text{MoE}(\mathbf{H}^{(\ell)})$
+    \STATE $\mathbf{H}^{(\ell)} = \text{LayerNorm}(\mathbf{H}^{(\ell)} + \mathbf{M}^{(\ell)})$
+\ENDFOR
+\STATE Return $\mathbf{H}^{(N)}, \{\mathbf{W}^{(\ell)}\}$
+\end{algorithmic}
+\end{algorithm}
+
+\subsubsection{Token-wise Mixture of Experts}
+
+Our MoE implementation operates at the token level, allowing each gene position to be processed by specialized expert networks:
+
+\begin{align}
+\mathbf{r}_{i,j} &= \text{Router}(\mathbf{h}_{i,j}) \in \mathbb{R}^{E} \\
+\mathbf{w}_{i,j} &= \text{Softmax}(\mathbf{r}_{i,j}) \\
+\mathbf{o}_{i,j} &= \sum_{e=1}^{E} w_{i,j,e} \cdot \text{Expert}_e(\mathbf{h}_{i,j})
+\end{align}
+
+where $\mathbf{h}_{i,j}$ is the hidden state for gene $j$ in cell $i$, $E=4$ is the number of experts, and each expert is a two-layer MLP:
+
+\begin{equation}
+\text{Expert}_e(\mathbf{x}) = \text{Linear}_2(\text{GELU}(\text{Linear}_1(\mathbf{x})))
+\end{equation}
+
+\subsection{Training Methodology}
+
+\subsubsection{Multi-task Learning Objectives}
+
+\bioformer{} is trained using two complementary objectives:
+
+\begin{align}
+\mathcal{L}_{MLM} &= -\sum_{i,j \in \mathcal{M}} \log P(\text{binned\_expr}_{i,j} | \mathbf{h}_{i,j}) \\
+\mathcal{L}_{cont} &= \sum_{i,j} ||\text{expr\_cont}_{i,j} - \text{ContHead}(\mathbf{h}_{i,j})||_2^2 \\
+\mathcal{L}_{total} &= \mathcal{L}_{MLM} + \lambda \mathcal{L}_{cont}
+\end{align}
+
+where $\mathcal{M}$ represents masked positions (15\% random masking), and $\lambda = 0.1$ balances the two objectives.
+
+\subsubsection{Expert Specialization}
+
+The MoE architecture naturally encourages specialization across different cellular contexts. We monitor expert usage patterns during training to ensure balanced utilization:
+
+\begin{equation}
+\text{Expert Utilization} = \frac{1}{B \times L} \sum_{i=1}^{B} \sum_{j=1}^{L} \mathbf{w}_{i,j}
+\end{equation}
+
+\subsection{Embedding Extraction Strategy}
+
+\subsubsection{CLS Token Approach}
+
+Following our empirical findings, we use \bioformer{} as an embedding extractor by taking the first token (CLS-like) representation:
+
+\begin{equation}
+\mathbf{z}_i = \mathbf{h}_{i,0}^{(N)}
+\end{equation}
+
+where $\mathbf{z}_i \in \mathbb{R}^{d_{model}}$ is the extracted embedding for cell $i$.
+
+\subsubsection{Downstream Task Adaptation}
+
+For batch integration, we train lightweight classifiers on the extracted embeddings:
+
+\begin{equation}
+P(\text{cell\_type} | \mathbf{z}_i) = \text{Softmax}(\text{MLP}(\mathbf{z}_i))
+\end{equation}
+
+This approach is computationally efficient and avoids overfitting compared to end-to-end fine-tuning.
+
+\subsection{Batch Integration Methodology}
+
+\subsubsection{Integration Pipeline}
+
+Our batch integration pipeline consists of three stages:
+
+\begin{enumerate}
+\item \textbf{Embedding Extraction}: Use pretrained \bioformer{} to extract cell embeddings
+\item \textbf{Batch Correction}: Apply lightweight batch correction in embedding space
+\item \textbf{Downstream Analysis}: Perform clustering and visualization on corrected embeddings
+\end{enumerate}
+
+\subsubsection{Evaluation Metrics}
+
+We evaluate batch integration performance using established metrics:
+
+\begin{align}
+\text{NMI} &= \frac{2 \times I(\text{clusters}, \text{cell\_types})}{H(\text{clusters}) + H(\text{cell\_types})} \\
+\text{ARI} &= \frac{\text{RI} - \text{Expected RI}}{\text{Max RI} - \text{Expected RI}} \\
+\text{Silhouette} &= \frac{1}{n} \sum_{i=1}^{n} \frac{b_i - a_i}{\max(a_i, b_i)}
+\end{align}
+
+where NMI measures clustering quality, ARI measures agreement between predicted and true labels, and Silhouette measures cluster cohesion.
+
+\subsection{Implementation Details}
+
+\bioformer{} uses the following configuration:
+\begin{itemize}
+\item Model dimension: $d_{model} = 256$
+\item Number of attention heads: $n_{head} = 4$
+\item Number of layers: $N_{layers} = 8$
+\item Number of experts: $E = 4$
+\item Vocabulary size: $L = 1000$
+\item Dropout rate: $p = 0.1$
+\item Learning rate: $2 \times 10^{-4}$ with cosine annealing
+\item Batch size: 32
+\end{itemize}
+
+This configuration balances model capacity with computational efficiency, making \bioformer{} practical for large-scale single-cell analysis.

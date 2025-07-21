@@ -1,0 +1,98 @@
+{
+  "methodology": "Pre-trained foundation model \u2192 Fine-tune 80% \u2192 Test 20%",
+  "dataset_info": {
+    "train_samples": 6398,
+    "test_samples": 1602,
+    "num_genes": 1500,
+    "num_cell_types": 6,
+    "cell_types": [
+      "NK_cell",
+      "Neutrophil",
+      "T_cell",
+      "B_cell",
+      "DC",
+      "Monocyte"
+    ]
+  },
+  "training": {
+    "epochs": 8,
+    "learning_rate": 5e-05,
+    "training_losses": [
+      1.8358023834228516,
+      1.807003936767578,
+      1.7973662821948528,
+      1.7916655476391314,
+      1.7915714009106158,
+      1.7915044148266315,
+      1.7915106201171875,
+      1.7914511616528035
+    ],
+    "final_loss": 1.7914511616528035
+  },
+  "evaluation": {
+    "accuracy": 0.17540574282147317,
+    "f1_macro": 0.04974331740130997,
+    "f1_weighted": 0.052351581235086514,
+    "num_test_samples": 1602,
+    "num_cell_types": 6,
+    "classification_report": {
+      "NK_cell": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 274.0
+      },
+      "Neutrophil": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 264.0
+      },
+      "T_cell": {
+        "precision": 0.17540574282147317,
+        "recall": 1.0,
+        "f1-score": 0.2984599044078598,
+        "support": 281.0
+      },
+      "B_cell": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 257.0
+      },
+      "DC": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 269.0
+      },
+      "Monocyte": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 257.0
+      },
+      "accuracy": 0.17540574282147317,
+      "macro avg": {
+        "precision": 0.02923429047024553,
+        "recall": 0.16666666666666666,
+        "f1-score": 0.04974331740130997,
+        "support": 1602.0
+      },
+      "weighted avg": {
+        "precision": 0.03076717461475278,
+        "recall": 0.17540574282147317,
+        "f1-score": 0.052351581235086514,
+        "support": 1602.0
+      }
+    }
+  },
+  "timing": {
+    "total_time_seconds": 67.04123568534851
+  },
+  "model_info": {
+    "parameters": 3655558,
+    "uses_pretrained_embeddings": true,
+    "checkpoint_used": "/mnt/nasdev2/dung/training1/checkpoints/checkpoint_epoch_4_20250615_081604_256d_4head_8layers.pt"
+  }
+}

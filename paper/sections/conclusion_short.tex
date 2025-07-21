@@ -1,0 +1,35 @@
+We introduced BioFormer, a transformer architecture that explores an alternative approach to single-cell batch integration through fixed gene ordering without positional embeddings, combined with Mixture of Experts. Our work demonstrates that this architectural choice can achieve functional batch integration performance.
+
+\subsection{Key Contributions}
+
+\subsubsection{Architectural Exploration}
+We demonstrated that fixed gene ordering without positional embeddings can achieve reasonable batch integration performance (AvgBIO: 0.6877, AvgBATCH: 0.9999 on PBMC data). This challenges the assumption that positional embeddings are necessary for transformer-based single-cell models and suggests that simpler architectural approaches may be viable.
+
+\subsubsection{Proof of Concept}
+While our evaluation is limited in scope, the results provide proof-of-concept evidence that the fixed gene vocabulary approach combined with MoE can handle batch effects while preserving biological structure. The UMAP visualizations confirm effective batch mixing and biological signal preservation.
+
+\subsection{Methodological Insights}
+Our work suggests that:
+\begin{itemize}
+\item Fixed gene ordering can be an alternative to arbitrary ordering with positional embeddings
+\item MoE architectures may provide benefits for single-cell analysis
+\item Architectural simplification does not necessarily preclude functional performance
+\end{itemize}
+
+\subsection{Limitations and Future Work}
+
+\subsubsection{Current Limitations}
+Our work has limitations that should be considered:
+\begin{itemize}
+\item Evaluation focused on specific batch integration scenarios
+\item Fixed vocabulary approach may not generalize to diverse datasets
+\item Performance involves trade-offs compared to existing methods
+\end{itemize>
+
+\subsection{Conclusion}
+
+BioFormer represents an initial exploration of alternative architectural approaches for single-cell batch integration. While our evaluation is limited and performance does not exceed existing state-of-the-art methods, the results demonstrate that fixed gene ordering with MoE can achieve functional integration performance. This work establishes a foundation for further investigation of simplified transformer architectures in single-cell genomics.
+
+The primary value of this work lies not in demonstrating superiority over existing methods, but in showing that alternative architectural paths are viable and may offer benefits in terms of simplicity and interpretability. As the field continues to develop transformer-based approaches for single-cell analysis, understanding the trade-offs between different architectural choices will be important for developing effective and efficient methods.
+
+We believe that the principles explored in BioFormer - architectural simplification, fixed vocabularies, and specialized processing through MoE - provide valuable insights for the broader development of computational methods in single-cell biology, even as they require more extensive validation to establish their practical utility.

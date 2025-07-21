@@ -1,0 +1,42 @@
+{
+  "wrong_approach": {
+    "correlation": 0.6031273007392883,
+    "mse": 0.024732740595936775,
+    "training_losses": [
+      0.2528173463448646,
+      0.011078984787066778,
+      0.010080555387373482,
+      0.009760770207596204,
+      0.010083126894656628
+    ],
+    "final_loss": 0.010083126894656628,
+    "methodology": "Random initialization \u2192 Fine-tune"
+  },
+  "correct_approach": {
+    "correlation": 0.6247367858886719,
+    "mse": 0.025453900918364525,
+    "training_losses": [
+      0.4454011627517286,
+      0.012819103268344723,
+      0.0092837817390405,
+      0.009002213536332997,
+      0.00933820679635992
+    ],
+    "final_loss": 0.00933820679635992,
+    "methodology": "Pre-trained foundation model \u2192 Fine-tune"
+  },
+  "summary": {
+    "key_correction": "Now using REAL 80/20 train/test split instead of synthetic demo data",
+    "methodology": "Pre-trained foundation model \u2192 Fine-tune 80% \u2192 Test 20%",
+    "previous_error": "Using random initialization instead of pre-trained checkpoints",
+    "dataset": "Real perturbation data: 2000 train, 500 test",
+    "total_time_seconds": 2.099334239959717
+  },
+  "context": {
+    "successful_tasks": {
+      "batch_integration": "NMI: 0.8864, ARI: 0.7308 (using pre-trained model)",
+      "grn_inference": "83.7% gene coverage, 15 programs (using pre-trained model)"
+    },
+    "corrected_issue": "Previously used synthetic data + wrong methodology. Now fixed both."
+  }
+}

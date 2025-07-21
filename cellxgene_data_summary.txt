@@ -1,0 +1,107 @@
+CZ CELLxGENE Discover Dataset Analysis
+==================================================
+
+Study 0:
+  file_size_mb: 245.1463451385498
+  keys: ['binned_expr', 'cell_type', 'expr_cont', 'non_zero_mask', 'study_ids', 'var_names']
+  n_cells: 495763
+  n_genes: 1000
+  cell_types: ['B cell', 'antibody secreting cell', 'dendritic cell', 'endothelial cell', 'hematopoietic multipotent progenitor cell', 'hematopoietic precursor cell', 'lymphocyte', 'monocyte', 'unknown']
+  n_cell_types: 9
+
+Study 2:
+  file_size_mb: 122.72501850128174
+  keys: ['binned_expr', 'cell_type', 'expr_cont', 'non_zero_mask', 'study_ids', 'var_names']
+  n_cells: 195632
+  n_genes: 1000
+  cell_types: ['B cell', 'CD4-positive, alpha-beta T cell', 'CD8-positive, alpha-beta T cell', 'T cell', 'dendritic cell', 'gamma-delta T cell', 'monocyte', 'mucosal invariant T cell', 'natural killer cell', 'stem cell']
+  n_cell_types: 10
+
+Study 3:
+  file_size_mb: 77.22296905517578
+  keys: ['binned_expr', 'cell_type', 'expr_cont', 'non_zero_mask', 'study_ids', 'var_names']
+  n_cells: 109995
+  n_genes: 1000
+  cell_types: ['CD16-negative, CD56-bright natural killer cell, human', 'CD4-positive, alpha-beta cytotoxic T cell', 'activated CD4-positive, alpha-beta T cell, human', 'activated CD8-positive, alpha-beta T cell, human', 'central memory CD4-positive, alpha-beta T cell', 'double negative thymocyte', 'effector memory CD8-positive, alpha-beta T cell', 'gamma-delta T cell', 'lymphocyte', 'mucosal invariant T cell', 'naive thymus-derived CD4-positive, alpha-beta T cell', 'naive thymus-derived CD8-positive, alpha-beta T cell', 'natural killer cell', 'regulatory T cell']
+  n_cell_types: 14
+
+Study 5:
+  file_size_mb: 223.50251483917236
+  keys: ['binned_expr', 'cell_type', 'expr_cont', 'non_zero_mask', 'study_ids', 'var_names']
+  n_cells: 599926
+  n_genes: 1000
+  cell_types: ['B cell', 'Sertoli cell', 'T cell', 'acinar cell', 'alternatively activated macrophage', 'astrocyte', 'basal cell', 'cell of skeletal muscle', 'chondrocyte', 'cord blood hematopoietic stem cell', 'dendritic cell', 'embryonic stem cell', 'endocrine cell', 'endothelial cell', 'enterocyte', 'epithelial cell', 'epithelial cell of exocrine pancreas', 'epithelial cell of proximal tubule', 'erythroid lineage cell', 'erythroid progenitor cell', 'fibroblast', 'goblet cell', 'inflammatory cell', 'kidney loop of Henle epithelial cell', 'macrophage', 'mast cell', 'mesenchymal stem cell', 'mesothelial cell', 'monocyte', 'myeloid cell', 'neuron', 'neutrophil', 'oligodendrocyte', 'peptic cell', 'plasma cell', 'primordial germ cell', 'professional antigen presenting cell', 'pulmonary alveolar type 2 cell', 'renal intercalated cell', 'smooth muscle cell', 'stratified epithelial cell', 'stromal cell', 'thyroid follicular cell', 'ventricular cardiac muscle cell']
+  n_cell_types: 44
+
+Study 6:
+  file_size_mb: 318.8207120895386
+  keys: ['binned_expr', 'cell_type', 'expr_cont', 'non_zero_mask', 'study_ids', 'var_names']
+  n_cells: 561754
+  n_genes: 1000
+  cell_types: ['neuron']
+  n_cell_types: 1
+
+Study 7:
+  file_size_mb: 269.69126319885254
+  keys: ['binned_expr', 'cell_type', 'expr_cont', 'non_zero_mask', 'study_ids', 'var_names']
+  n_cells: 377022
+  n_genes: 1000
+  cell_types: ['glioblast', 'neuroblast (sensu Nematoda and Protostomia)', 'neuroblast (sensu Vertebrata)', 'neuron', 'oligodendrocyte', 'radial glial cell']
+  n_cell_types: 6
+
+Study 8:
+  file_size_mb: 633.8574457168579
+  keys: ['binned_expr', 'cell_type', 'expr_cont', 'non_zero_mask', 'study_ids', 'var_names']
+  n_cells: 714331
+  n_genes: 1000
+  cell_types: ['CD4-positive helper T cell', 'CD4-positive, alpha-beta T cell', 'CD8-positive, alpha-beta memory T cell', 'IgA plasma cell', 'IgG plasma cell', 'T cell', 'activated CD4-positive, alpha-beta T cell', 'activated CD8-positive, alpha-beta T cell', 'alternatively activated macrophage', 'basal cell', 'capillary endothelial cell', 'class switched memory B cell', 'classical monocyte', 'conventional dendritic cell', 'effector memory CD4-positive, alpha-beta T cell', 'effector memory CD8-positive, alpha-beta T cell', 'endothelial cell of artery', 'endothelial cell of lymphatic vessel', 'fibroblast', 'gamma-delta T cell', 'inflammatory macrophage', 'luminal epithelial cell of mammary gland', 'lymphocyte', 'macrophage', 'mammary gland epithelial cell', 'mast cell', 'mature NK T cell', 'myeloid cell', 'myeloid dendritic cell', 'naive B cell', 'natural killer cell', 'neutrophil', 'non-classical monocyte', 'pericyte', 'plasmacytoid dendritic cell', 'regulatory T cell', 'unswitched memory B cell', 'vascular associated smooth muscle cell', 'vein endothelial cell']
+  n_cell_types: 39
+
+Study 9:
+  file_size_mb: 275.51644706726074
+  keys: ['binned_expr', 'cell_type', 'expr_cont', 'non_zero_mask', 'study_ids', 'var_names']
+  n_cells: 391963
+  n_genes: 1000
+  cell_types: ['B cell', 'T cell', 'endothelial cell', 'epithelial cell', 'fibroblast', 'malignant cell', 'mast cell', 'megakaryocyte', 'mononuclear phagocyte', 'neutrophil', 'plasmacytoid dendritic cell']
+  n_cell_types: 11
+
+Study 10:
+  file_size_mb: 71.47868919372559
+  keys: ['binned_expr', 'cell_type', 'expr_cont', 'non_zero_mask', 'study_ids', 'var_names']
+  n_cells: 107344
+  n_genes: 1000
+  cell_types: ['B cell', 'T cell', 'conventional dendritic cell', 'cytotoxic T cell', 'endothelial cell', 'epithelial cell of proximal tubule', 'kidney collecting duct intercalated cell', 'kidney collecting duct principal cell', 'kidney connecting tubule epithelial cell', 'kidney distal convoluted tubule epithelial cell', 'kidney interstitial alternatively activated macrophage', 'kidney interstitial cell', 'kidney loop of Henle thick ascending limb epithelial cell', 'kidney loop of Henle thin ascending limb epithelial cell', 'kidney loop of Henle thin descending limb epithelial cell', 'mast cell', 'mature NK T cell', 'monocyte', 'mononuclear phagocyte', 'natural killer cell', 'non-classical monocyte', 'parietal epithelial cell', 'plasma cell', 'plasmacytoid dendritic cell, human', 'podocyte', 'regulatory T cell']
+  n_cell_types: 26
+
+Study 11:
+  file_size_mb: 47.89795780181885
+  keys: ['binned_expr', 'cell_type', 'expr_cont', 'non_zero_mask', 'study_ids', 'var_names']
+  n_cells: 121916
+  n_genes: 1000
+  cell_types: ['endothelial cell', 'macrophage', 'pancreatic A cell', 'pancreatic D cell', 'pancreatic PP cell', 'pancreatic acinar cell', 'pancreatic ductal cell', 'pancreatic stellate cell', 'type B pancreatic cell']
+  n_cell_types: 9
+
+Study 12:
+  file_size_mb: 244.93710899353027
+  keys: ['binned_expr', 'cell_type', 'expr_cont', 'non_zero_mask', 'study_ids', 'var_names']
+  n_cells: 228032
+  n_genes: 1000
+  cell_types: ['BEST4+ enterocyte', 'acinar cell', 'acinar cell of salivary gland', 'basal cell', 'basal cell of prostate epithelium', 'bladder urothelial cell', 'blood vessel smooth muscle cell', 'ciliated epithelial cell', 'club cell', 'conjunctival epithelial cell', 'corneal epithelial cell', 'duct epithelial cell', 'enterochromaffin-like cell', 'enterocyte of epithelium of large intestine', 'enterocyte of epithelium proper of duodenum', 'enterocyte of epithelium proper of ileum', 'enterocyte of epithelium proper of jejunum', 'enterocyte of epithelium proper of small intestine', 'enteroendocrine cell', 'enteroendocrine cell of small intestine', 'epithelial cell', 'epithelial cell of uterus', 'epithelial fate stem cell', 'glandular secretory epithelial cell', 'hepatocyte', 'interstitial cell of Cajal', 'intestinal crypt stem cell of colon', 'intestinal crypt stem cell of small intestine', 'intestinal tuft cell', 'intrahepatic cholangiocyte', 'ionocyte', 'keratocyte', 'kidney epithelial cell', 'large intestine goblet cell', 'luminal cell of prostate epithelium', 'luminal epithelial cell of mammary gland', 'lung multiciliated epithelial cell', 'medullary thymic epithelial cell', 'mesothelial cell', 'mucus secreting cell', 'multiciliated columnar cell of tracheobronchial tree', 'myo-medullary thymic epithelial cell', 'myoepithelial cell', 'neuro-medullary thymic epithelial cell', 'ovarian surface epithelial cell', 'pancreatic A cell', 'pancreatic D cell', 'pancreatic PP cell', 'pancreatic acinar cell', 'pancreatic ductal cell', 'paneth cell of colon', 'paneth cell of epithelium of small intestine', 'peritubular myoid cell', 'progenitor cell of mammary luminal epithelium', 'pulmonary alveolar type 1 cell', 'pulmonary alveolar type 2 cell', 'pulmonary ionocyte', 'respiratory tract goblet cell', 'retinal pigment epithelial cell', 'salivary gland cell', 'sebocyte', 'serous cell of epithelium of bronchus', 'serous cell of epithelium of trachea', 'small intestine goblet cell', 'stratified squamous epithelial cell', 'supporting cell of vestibular epithelium', 'taste receptor cell', 'tracheal goblet cell', 'transit amplifying cell of colon', 'transit amplifying cell of small intestine', 'tuft cell of colon', 'type B pancreatic cell', 'type L enteroendocrine cell', 'vestibular dark cell']
+  n_cell_types: 74
+
+Study 13:
+  file_size_mb: 281.19446849823
+  keys: ['binned_expr', 'cell_type', 'expr_cont', 'non_zero_mask', 'study_ids', 'var_names']
+  n_cells: 318656
+  n_genes: 1000
+  cell_types: ['cell of skeletal muscle', 'chondrocyte', 'endothelial cell', 'enteroendocrine cell', 'epithelial cell', 'epithelial cell of nephron', 'eurydendroid cell', 'fibroblast', 'glial cell', 'hepatocyte', 'interstitial cell of Cajal', 'keratinocyte', 'melanocyte', 'mesothelial cell', 'myofibroblast cell', 'neuron', 'osteoblast', 'skeletal muscle satellite cell', 'smooth muscle cell', 'stromal cell', 'unknown', 'vascular associated smooth muscle cell']
+  n_cell_types: 22
+
+Study 14:
+  file_size_mb: 228.22823810577393
+  keys: ['binned_expr', 'cell_type', 'expr_cont', 'non_zero_mask', 'study_ids', 'var_names']
+  n_cells: 255901
+  n_genes: 1000
+  cell_types: ['CD4-positive, alpha-beta T cell', 'CD4-positive, alpha-beta memory T cell', 'CD8-alpha-alpha-positive, alpha-beta intraepithelial T cell', 'CD8-positive, alpha-beta T cell', 'CD8-positive, alpha-beta memory T cell', 'T cell', 'alpha-beta T cell', 'cortical thymic epithelial cell', 'dendritic cell', 'double negative thymocyte', 'double-positive, alpha-beta thymocyte', 'early T lineage precursor', 'endothelial cell', 'epithelial cell of thymus', 'erythrocyte', 'fibroblast', 'gamma-delta T cell', 'group 3 innate lymphoid cell', 'lymphocyte', 'macrophage', 'mast cell', 'medullary thymic epithelial cell', 'megakaryocyte', 'memory B cell', 'monocyte', 'naive B cell', 'natural killer cell', 'plasma cell', 'plasmacytoid dendritic cell', 'precursor B cell', 'progenitor cell', 'regulatory T cell', 'vascular associated smooth muscle cell']
+  n_cell_types: 33
+

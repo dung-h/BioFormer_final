@@ -1,0 +1,29 @@
+=== FFN BioFormer Cell Type Annotation Testing ===
+Started at: 2025-07-05 09:24:49.360281
+
+=== Testing MS ===
+Train: 6275 cells, Test: 1569 cells
+Accuracy: 0.2970
+F1 (macro): 0.1542
+F1 (weighted): 0.2804
+
+=== Testing Myeloid ===
+Train: 9748 cells, Test: 3430 cells
+Accuracy: 0.1688
+F1 (macro): 0.1011
+F1 (weighted): 0.1752
+
+=== Testing hPancreas ===
+Train: 10600 cells, Test: 4218 cells
+Error testing hPancreas: y contains previously unseen labels: 'MHC class II'
+
+============================================================
+FFN BioFormer Cell Type Annotation Results
+============================================================
+Dataset    Accuracy   F1_macro   F1_weighted  N_train  N_test   N_types 
+------------------------------------------------------------
+MS         0.2970     0.1542     0.2804       6275     1569     18      
+Myeloid    0.1688     0.1011     0.1752       9748     3430     21      
+
+Results saved to ffn_cell_annotation_results.csv
+Completed at: 2025-07-05 09:25:09.076437

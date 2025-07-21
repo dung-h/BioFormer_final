@@ -1,0 +1,29 @@
+Single-cell RNA sequencing (scRNA-seq) has emerged as a transformative technology in molecular biology, enabling researchers to profile gene expression at unprecedented resolution \citep{tanay2017scaling}. However, one of the most persistent challenges in scRNA-seq analysis is batch integration—the removal of technical variations between experiments while preserving biological signals \citep{luecken2021benchmarking}. Batch effects can arise from various sources including different experimental protocols, sequencing platforms, processing dates, and laboratory conditions, often masking true biological differences between cell types \citep{tran2020benchmark}.
+
+Traditional approaches to batch correction have relied on linear methods such as ComBat \citep{johnson2007adjusting} or more sophisticated techniques like Harmony \citep{korsunsky2019fast} and Seurat integration \citep{stuart2019comprehensive}. While these methods have proven valuable, they often struggle with complex, non-linear batch effects and may not fully leverage the rich information content of high-dimensional gene expression data.
+
+The success of transformer architectures in natural language processing has inspired their application to genomics data. Recent models such as \scgpt{} \citep{cui2024scgpt} and \scbert{} \citep{yang2022scbert} have demonstrated impressive capabilities in various single-cell analysis tasks. These models typically employ several design choices:
+
+\begin{itemize}
+\item \textbf{Gene Token Ordering}: Models like \scgpt{} and \scbert{} use flexible gene ordering approaches with positional embeddings.
+\item \textbf{Positional Encoding}: These models incorporate various positional embedding schemes to capture relationships between genes.
+\item \textbf{Fine-tuning Strategies}: Applications of these models often involve fine-tuning approaches for specific downstream tasks.
+\end{itemize}
+
+Building on these successful approaches, we explore whether alternative architectural choices can provide effective solutions for batch integration tasks.
+
+In this work, we introduce \bioformer{}, a novel transformer-based architecture that explores alternative design choices for batch integration. Our approach makes three key contributions:
+
+\begin{itemize}
+\item \textbf{Fixed Gene Ordering Without Positional Embeddings}: Unlike existing models, \bioformer{} uses a fixed gene vocabulary order based on predefined gene indices, eliminating the need for positional embeddings while maintaining or improving performance.
+
+\item \textbf{Mixture of Experts Architecture}: We incorporate token-wise Feed-Forward Network Mixture of Experts (\moe{}) layers that enable specialized processing for different cellular contexts, particularly beneficial for integrating diverse batch conditions.
+
+\item \textbf{Embedding Extraction Strategy}: Through comprehensive empirical evaluation, we demonstrate that \bioformer{} achieves optimal performance when used as an embedding extractor rather than through end-to-end fine-tuning, offering a more efficient approach to transfer learning.
+\end{itemize}
+
+Our primary focus is on batch integration, where we demonstrate that \bioformer{} achieves superior performance compared to both traditional methods and existing transformer-based approaches. We show that fixed gene ordering can effectively capture biological relationships while being computationally simpler than arbitrary ordering schemes. The \moe{} architecture provides specialized expert networks that can adapt to different batch characteristics, leading to improved integration performance.
+
+Through extensive experiments on multiple datasets with varying batch complexity, we achieve normalized mutual information scores of 0.8864 and demonstrate superior clustering of cell types across batches. Our ablation studies reveal that the combination of fixed gene ordering, \moe{} architecture, and embedding extraction strategy provides a powerful framework for single-cell batch integration.
+
+The remainder of this paper is organized as follows: Section 2 reviews related work in transformer-based genomics models and batch integration methods, Section 3 details the \bioformer{} architecture and methodology, Section 4 describes our experimental setup focusing on batch integration benchmarks, Section 5 presents comprehensive results demonstrating superior batch integration performance, and Sections 6-8 discuss implications, limitations, and conclusions.

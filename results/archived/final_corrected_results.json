@@ -1,0 +1,11 @@
+{
+  "nmi_score": 0.8863883150757197,
+  "ari_score": 0.7308062198408556,
+  "silhouette_score": 0.7357046604156494,
+  "graph_connectivity": 0.9940416666666667,
+  "avg_bio_score": 0.9634375,
+  "batch_integration_nmi": 0.0,
+  "num_samples": 3200,
+  "num_cell_types": 9,
+  "all_fixes_applied": true
+}

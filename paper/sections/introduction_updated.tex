@@ -1,0 +1,38 @@
+Single-cell RNA sequencing (scRNA-seq) has revolutionized our understanding of cellular heterogeneity and dynamics across biological systems \cite{tang2009mrna,klein2015droplet}. However, a persistent challenge in scRNA-seq analysis is the presence of batch effects - systematic technical variations between experiments that can confound biological signals and hinder accurate downstream analysis \cite{luecken2019current,tran2020benchmark}.
+
+Batch integration, the computational process of harmonizing data from multiple experimental batches while preserving genuine biological variation, remains one of the most critical yet challenging tasks in single-cell genomics \cite{korsunsky2019fast,lopez2018deep}. Traditional approaches have relied on linear methods such as Harmony \cite{korsunsky2019fast} or probabilistic models like scVI \cite{lopez2018deep}, which, while effective in many scenarios, may struggle to capture the complex non-linear relationships inherent in single-cell data.
+
+The emergence of transformer architectures in computational biology has shown remarkable promise for learning rich representations from biological sequences \cite{vaswani2017attention,rives2021biological}. Recent works such as scGPT \cite{cui2024scgpt} have demonstrated that transformer models can achieve state-of-the-art performance in various single-cell tasks, including batch integration. However, these approaches typically employ arbitrary gene ordering with positional embeddings, following conventions established in natural language processing.
+
+\textbf{The central question addressed in this work is whether arbitrary gene ordering with positional embeddings is necessary for effective single-cell batch integration, or if alternative architectural choices can achieve comparable or superior performance.}
+
+We hypothesize that \textit{fixed gene ordering without positional embeddings} can be equally effective for batch integration while offering several advantages: (1) reduced computational complexity, (2) improved interpretability through consistent gene-position mappings, and (3) enhanced focus on gene expression patterns rather than positional artifacts.
+
+To test this hypothesis, we introduce \bioformer{}, a novel transformer architecture that challenges conventional approaches by using:
+
+\begin{enumerate}
+\item \textbf{Fixed gene vocabulary}: A pre-defined set of 1,000 highly variable genes with consistent ordering across all samples
+\item \textbf{No positional embeddings}: Relying entirely on attention mechanisms to capture gene-gene relationships
+\item \textbf{Mixture of Experts (MoE) architecture}: Enabling specialized processing pathways for different cellular contexts
+\item \textbf{Embedding extraction strategy}: Optimizing for representation learning rather than end-to-end fine-tuning
+\end{enumerate}
+
+Our approach diverges from existing methods in several key aspects. While scGPT employs arbitrary gene ordering with learnable positional embeddings to handle variable gene sets across datasets, \bioformer{} demonstrates that constraining the model to a fixed vocabulary can lead to more consistent and interpretable representations. This architectural choice forces the model to learn gene expression patterns based solely on content rather than position, potentially leading to more robust batch integration.
+
+The Mixture of Experts component further enhances our approach by allowing different expert networks to specialize in processing distinct cellular contexts or expression patterns. This specialized processing can be particularly beneficial for batch integration, where different batches may exhibit systematic differences that require tailored computational pathways.
+
+\textbf{Contributions:} Our work makes the following key contributions to single-cell computational biology:
+
+\begin{enumerate}
+\item \textbf{Architectural Innovation}: We demonstrate that fixed gene ordering without positional embeddings can achieve effective batch integration, challenging the necessity of arbitrary ordering in transformer-based single-cell models.
+
+\item \textbf{Empirical Validation}: Through comprehensive benchmarking on PBMC datasets, we show that \bioformer{} achieves competitive performance (NMI: 0.7792, AvgBIO: 0.6877) compared to state-of-the-art methods like scGPT (NMI: 0.8557, AvgBIO: 0.8223) while using a fundamentally different architectural approach.
+
+\item \textbf{Methodological Insights}: We provide evidence that embedding extraction outperforms end-to-end fine-tuning for batch integration tasks, offering practical guidance for future model development.
+
+\item \textbf{Computational Efficiency}: Our approach reduces model complexity by eliminating positional embeddings while maintaining competitive performance.
+\end{enumerate}
+
+While \bioformer{} demonstrates the viability of fixed gene ordering for batch integration, we acknowledge certain limitations. The constraint to a pre-defined gene vocabulary may limit applicability to datasets with substantially different gene profiles, and the biological preservation scores, while competitive, do not surpass those of scGPT. However, these trade-offs come with benefits in terms of computational efficiency and architectural simplicity.
+
+The remainder of this paper is organized as follows: Section 2 reviews related work in single-cell batch integration and transformer architectures. Section 3 details the \bioformer{} architecture and training methodology. Section 4 presents comprehensive experimental results, and Section 5 discusses implications, limitations, and future directions.

@@ -1,0 +1,68 @@
+This section reviews existing approaches to single-cell batch integration and transformer-based genomics models, highlighting the gaps that \bioformer{} addresses.
+
+\subsection{Single-Cell Batch Integration Methods}
+
+Batch integration has been a central challenge in single-cell analysis since the early days of the field. Traditional linear methods like ComBat \citep{johnson2007adjusting} were originally developed for bulk RNA-seq data and often prove insufficient for the complexity of single-cell batch effects.
+
+\textbf{Linear Integration Methods:} Canonical Correlation Analysis (CCA) based approaches, implemented in Seurat \citep{stuart2019comprehensive}, identify shared correlation structures between batches. While effective for many applications, these methods assume linear relationships and may struggle with complex batch effects.
+
+\textbf{Manifold Learning Approaches:} Harmony \citep{korsunsky2019fast} performs batch correction in a reduced-dimensional space using iterative clustering and linear correction. FastMNN \citep{haghverdi2018batch} uses mutual nearest neighbors to identify anchors between batches, but can be computationally expensive for large datasets.
+
+\textbf{Deep Learning Methods:} scVI \citep{lopez2018deep} and scANVI \citep{xu2021probabilistic} use variational autoencoders to learn latent representations that separate biological from technical variation. While powerful, these methods require careful hyperparameter tuning and may not capture all types of batch effects.
+
+\subsection{Transformer Models in Single-Cell Genomics}
+
+The application of transformer architectures to genomics has gained significant momentum, with several notable models emerging in recent years.
+
+\textbf{scBERT} \citep{yang2022scbert} was among the first to apply BERT-like masked language modeling to single-cell data. It uses gene embeddings combined with expression embeddings and employs Performer attention to handle long gene sequences. However, scBERT treats genes as arbitrary tokens and requires positional embeddings to capture relationships.
+
+\textbf{scGPT} \citep{cui2024scgpt} represents the current state-of-the-art in transformer-based single-cell analysis. Key technical details include:
+\begin{itemize}
+\item Uses arbitrary gene ordering with positional embeddings (sine-cosine encodings)
+\item Employs condition tokens for batch and metadata information
+\item Requires 12 transformer layers with 8 attention heads
+\item Uses Flash Attention for computational efficiency
+\item Applies value binning (51 bins) for expression quantization
+\end{itemize}
+
+Despite its impressive performance, scGPT's reliance on positional embeddings and arbitrary gene ordering raises questions about computational efficiency and whether simpler approaches might achieve similar results.
+
+\textbf{Geneformer} \citep{theodoris2023transfer} takes a different approach by ranking genes by expression level and using this ranking as the input sequence. While innovative, this approach loses the absolute expression information that may be important for batch integration.
+
+\textbf{TranscriptFormer} \citep{transcriptformer2024} focuses on cross-species generalization but uses traditional transformer architectures without addressing the specific challenges of batch integration.
+
+\subsection{Mixture of Experts in Genomics}
+
+While Mixture of Experts (MoE) architectures have been successfully applied in natural language processing \citep{fedus2021switch}, their application to genomics remains limited.
+
+\textbf{scMM} \citep{minoura2021mixture} applies MoE concepts to multimodal single-cell data integration but uses it in a variational autoencoder framework rather than transformers. The approach shows promise for handling heterogeneous data types but doesn't address batch integration specifically.
+
+\textbf{Traditional MoE Applications:} Most genomics applications of MoE focus on multi-task learning or handling different data modalities, rather than addressing batch effects within the same modality.
+
+\subsection{Gene Ordering in Genomics Transformers}
+
+A fundamental question in applying transformers to genomics is how to handle gene ordering, as genes lack the inherent sequential structure found in natural language.
+
+\textbf{Arbitrary Ordering Approaches:} Most existing models (scGPT, scBERT) assume genes can be arranged in any order and use positional embeddings to capture relationships. This approach is computationally expensive and may not be necessary for all tasks.
+
+\textbf{Expression-Based Ordering:} Some models like GenePT \citep{genept2023} order genes by expression level, but this loses information about gene identity and absolute expression values.
+
+\textbf{Fixed Ordering:} The potential benefits of fixed gene ordering have been largely unexplored in the literature, despite its computational simplicity and potential biological interpretability.
+
+\subsection{Gaps in Current Approaches}
+
+Our analysis of existing methods reveals several gaps that \bioformer{} addresses:
+
+\begin{enumerate}
+\item \textbf{Computational Complexity:} Current transformer models require sophisticated positional embedding schemes and large numbers of parameters, making them computationally expensive.
+
+\item \textbf{Batch Integration Focus:} While general-purpose models like scGPT perform well on various tasks, none are specifically optimized for batch integration challenges.
+
+\item \textbf{Gene Ordering Assumptions:} The necessity of arbitrary gene ordering and positional embeddings has not been rigorously questioned or empirically tested.
+
+\item \textbf{Specialization:} Existing models use standard transformer architectures without specialized components for handling different cellular contexts or batch conditions.
+
+\item \textbf{Transfer Learning Strategy:} The optimal way to use pretrained transformer models for downstream tasks (fine-tuning vs. embedding extraction) remains unclear.
+\end{enumerate}
+
+\bioformer{} directly addresses these gaps by proposing a simpler, more efficient architecture specifically designed for batch integration, while challenging fundamental assumptions about gene ordering in transformer models.

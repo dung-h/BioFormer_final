@@ -1,0 +1,16 @@
+{
+  "baseline": {
+    "method": "pca_baseline",
+    "cell_type_nmi": 1.0,
+    "batch_nmi": 8.072599230953338e-05,
+    "batch_effect_score": 1.0,
+    "integration_score": 0.9999192740076904
+  },
+  "bioformer": {
+    "method": "bioformer",
+    "cell_type_nmi": 0.0,
+    "batch_nmi": 0.0,
+    "batch_effect_score": 0.3333333333333333,
+    "integration_score": 0.0
+  }
+}

@@ -1,0 +1,88 @@
+\documentclass[11pt]{article}
+
+% Required packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows}
+
+% Page formatting
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+
+% Custom commands
+\newcommand{\bioformer}{\textsc{BioFormer}}
+\newcommand{\scgpt}{\textsc{scGPT}}
+\newcommand{\scbert}{\textsc{scBERT}}
+\newcommand{\moe}{\textsc{MoE}}
+
+% Title and authors
+\title{\textbf{BioFormer: Fixed Gene Order Transformer with Mixture of Experts for Single-Cell Batch Integration}}
+
+\author{
+Ho Anh Dung$^{1}$, Tho Quan$^{1}$, Son Pham$^{2}$ \\
+\small $^1$Computer Science and Engineering Department \\
+\small $^2$BioTuring Inc.
+}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Batch integration remains one of the most challenging problems in single-cell RNA sequencing (scRNA-seq) analysis, where technical variations between experiments can obscure true biological signals. Recent transformer-based models like \scgpt{} have achieved impressive results in various single-cell analysis tasks.
+
+Here, we introduce \bioformer{}, a transformer architecture that explores an alternative approach by using fixed gene vocabularies without positional embeddings, combined with Feed-Forward Network Mixture of Experts (\moe{}) for batch integration. Our approach investigates whether fixed gene ordering can achieve effective batch integration performance while offering architectural simplicity.
+
+We demonstrate \bioformer{}'s feasibility through batch integration evaluation on PBMC data, achieving normalized mutual information scores of 0.7792 and batch integration scores of 0.9999. While performance does not exceed state-of-the-art methods like scGPT, our results provide proof-of-concept evidence that this architectural approach merits further investigation. These findings contribute to understanding trade-offs between different architectural choices in transformer-based single-cell models.
+\end{abstract}
+
+\section{Introduction}
+\input{sections/introduction}
+
+\section{Related Work}
+\input{sections/related_work}
+
+\section{Methods}
+\input{sections/methods}
+
+\section{Results}
+\input{sections/results_short}
+
+\section{Discussion}
+\input{sections/discussion}
+
+\section{Limitations}
+\input{sections/limitations_short}
+
+\section{Conclusion}
+\input{sections/conclusion_short}
+
+% \section{Data Availability}
+% All code and data used in this study are available at [GitHub repository URL]. The \bioformer{} model and trained checkpoints are available for download and reproduction of results.
+
+% \section{Author Contributions}
+% [To be completed based on actual contributions]
+
+% \section{Acknowledgments}
+% We thank [acknowledgments to be added].
+
+\bibliographystyle{unsrt}
+\bibliography{references/bioformer_references}
+
+
+\end{document}

@@ -1,0 +1,57 @@
+{
+  "methodology": "Comprehensive BioFormer GRN Inference",
+  "parameters": {
+    "vocab_size": 800,
+    "d_model": 256,
+    "threshold": null,
+    "resolution": 1.0,
+    "min_program_size": 5
+  },
+  "embeddings_shape": [
+    800,
+    256
+  ],
+  "similarity_stats": {
+    "mean": -0.00016708728799130768,
+    "std": 0.0625789538025856,
+    "min": -0.2825455665588379,
+    "max": 0.2596408426761627,
+    "median": -0.00023523555137217045,
+    "percentile_95": 0.10300715491175652,
+    "percentile_99": 0.1452529335021973
+  },
+  "network_properties": {
+    "basic_stats": {
+      "n_nodes": 800,
+      "n_edges": 15980,
+      "density": 0.05,
+      "is_connected": true,
+      "n_components": 1
+    },
+    "degree_stats": {
+      "mean": 39.95,
+      "std": 6.171304562246139,
+      "min": 22,
+      "max": 59,
+      "median": 40.0
+    },
+    "topology": {
+      "avg_clustering": 0.08154497219444057,
+      "transitivity": 0.08128376629995844
+    }
+  },
+  "gene_programs_summary": {
+    "n_programs": 12,
+    "total_genes_covered": 800,
+    "coverage_percentage": 100.0
+  },
+  "validation_results": {
+    "known_interactions": 500,
+    "predicted_interactions": 15980,
+    "overlap": 500,
+    "precision": 0.03128911138923655,
+    "recall": 1.0,
+    "f1_score": 0.06067961165048544
+  },
+  "runtime_seconds": 1.8228251934051514
+}

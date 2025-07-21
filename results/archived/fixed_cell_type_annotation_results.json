@@ -1,0 +1,46 @@
+{
+  "methodology": "EXACT same as successful batch integration: embeddings + classifier",
+  "comparison": {
+    "batch_integration_result": "NMI: 0.8864, ARI: 0.7308 (SUCCESS)",
+    "previous_cell_type_wrong": "17.5% accuracy (fine-tuning approach)",
+    "fixed_cell_type_correct": "0.9891 accuracy (embedding approach)"
+  },
+  "dataset_info": {
+    "total_samples": 3200,
+    "embedding_dim": 256,
+    "num_cell_types": 9,
+    "cell_types": [
+      "b'B cells'",
+      "b'CD14+ Monocytes'",
+      "b'CD4 T cells'",
+      "b'CD8 T cells'",
+      "b'Dendritic Cells'",
+      "b'FCGR3A+ Monocytes'",
+      "b'Megakaryocytes'",
+      "b'NK cells'",
+      "b'Other'"
+    ],
+    "train_test_split": "80/20"
+  },
+  "classifier_results": {
+    "Random Forest": {
+      "accuracy": 0.9890625,
+      "f1_macro": 0.9625741925236269,
+      "f1_weighted": 0.9891479754970242,
+      "train_time": 1.9070191383361816
+    },
+    "Logistic Regression": {
+      "accuracy": 0.9765625,
+      "f1_macro": 0.8486633630295224,
+      "f1_weighted": 0.970762691808335,
+      "train_time": 0.29532551765441895
+    }
+  },
+  "best_classifier": {
+    "name": "Random Forest",
+    "accuracy": 0.9890625,
+    "f1_macro": 0.9625741925236269,
+    "f1_weighted": 0.9891479754970242
+  },
+  "detailed_per_class_results": {
+    
